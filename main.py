@@ -15,25 +15,20 @@ def binarySearch(records):
             # Binary Search code:
             index = -1 # If the target exist in the records, it would not be -1
             low = 0
-            high = len(customerPackageList)
-            # low starts with the first element which is 0 for the first instance, high is the len of the array.
+            high = len(customerPackageList)-1
+            # low is the lowest index and high is the highest index
             while (high >= low):
+                mid = (high + low) // 2
 
-                mid = low + ((high - low) // 2)  # Middle element
-
-                if mid >= len(customerPackageList):
-                    break
-
-                # if element is present at the middle itself
+                # if packageName equals to mid
                 if packageName.lower() == records[customerPackageList[mid]]["packageName"].lower():
                     index = mid
                     break
-
-                # If target is smaller than mid:
-                elif records[customerPackageList[mid]]["packageName"].lower() > packageName.lower():
+                # if packageName is smaller than mid, element is on the left side
+                elif packageName.lower() < records[customerPackageList[mid]]["packageName"].lower():
                     high = mid - 1
-
-                else:   # If target is greater than middle
+                # if packageName is larger than mid, element is on the right side
+                else:
                     low = mid + 1
 
             if index == -1:
@@ -47,6 +42,7 @@ def binarySearch(records):
                       "\n3. Number of Pax"
                       "\n4. Package Cost Per Pax")
                 print(records[customerPackageList[index]]["packageName"])
+
                 while True: # This loop is for input validation
                     updateChoice = input("What choice do you wish to update: ")
                     if updateChoice == "":
@@ -57,6 +53,7 @@ def binarySearch(records):
                         if int(updateChoice)>0 and int(updateChoice) < 5:
                             break
                     print("Invalid input detected - Please input again")
+
                 if updateChoice != "":
                     if updateChoice == 1:
                         while True:
@@ -72,9 +69,13 @@ def binarySearch(records):
 
                     elif updateChoice == 2:
                         while True:
-                            update = input("New Package Name: ")
+                            update = input("New Package Name: ").capitalize()
                             if update != "":
                                 records[customerPackageList[index]]["packageName"] = update
+
+                                # updates packageList and sorts for binary search
+                                packageList = [records[record]["packageName"] for record in records]
+                                sorted(packageList)
 
                                 print("Updated! Returning back to Menu")
                             elif update == "":
@@ -108,38 +109,40 @@ def binarySearch(records):
             print("Please input something lols")
         continue
 
-records = {
-    "Mike" : {"packageName":"Wedding","Pax":2,"packageCost":770},
-    "India" : {"packageName":"Holiday","Pax":4,"packageCost":380},
-    "Chipo" : {"packageName":"Business","Pax":1,"packageCost":130},
-    "Jusly" : {"packageName":"Kenthouse","Pax":5,"packageCost":560},
-    "Poh" : {"packageName":"Castle","Pax":2,"packageCost":280},
-    "Brigg" : {"packageName":"Grand","Pax":6,"packageCost":225},
-    "John" : {"packageName":"Treehouse","Pax":7,"packageCost":330},
-    "Ahgong" : {"packageName":"Birthday","Pax":8,"packageCost":210},
-    "Ligma" : {"packageName":"Disney","Pax":4,"packageCost":660},
-    "Yrom" : {"packageName":"Date","Pax":5,"packageCost":925}
 
-}
-while True:
-    print("\n-------Staycation Package Deal Inventory Menu-------"
-          "\n1. Display All Records"
-          "\n2. Sort record by Customer Name using Bubble sort"
-          "\n3. Sort record by Package Name using Selection sort"
-          "\n4. Sort record by Package Cost using Insertion sort"
-          "\n5. Search record by Customer Name using Linear Search and update record"
-          "\n6. Search record by Package Name using Binary Search and update record"
-          "\n7. List records range filter")
-    while True: # This loop is for input validation
-        choice = input("What would like to do today? (Press enter to exit program): ")
-        if choice == "":
-            print("Thank you for using Staycation Package Deal Inventory Menu!")
-            break
-        if choice.isnumeric() == True:
-            choice = int(choice)
-            if int(choice)>0 and int(choice) < 8:
+if __name__ == "__main__":
+    records = {
+        "Mike" : {"packageName":"Wedding","Pax":2,"packageCost":770},
+        "India" : {"packageName":"Holiday","Pax":4,"packageCost":380},
+        "Chipo" : {"packageName":"Business","Pax":1,"packageCost":130},
+        "Jusly" : {"packageName":"Kenthouse","Pax":5,"packageCost":560},
+        "Poh" : {"packageName":"Castle","Pax":2,"packageCost":280},
+        "Brigg" : {"packageName":"Grand","Pax":6,"packageCost":225},
+        "John" : {"packageName":"Treehouse","Pax":7,"packageCost":330},
+        "Ahgong" : {"packageName":"Birthday","Pax":8,"packageCost":210},
+        "Ligma" : {"packageName":"Disney","Pax":4,"packageCost":660},
+        "Yrom" : {"packageName":"Date","Pax":5,"packageCost":925}
+    }
+
+    while True:
+        print("\n-------Staycation Package Deal Inventory Menu-------"
+            "\n1. Display All Records"
+            "\n2. Sort record by Customer Name using Bubble sort"
+            "\n3. Sort record by Package Name using Selection sort"
+            "\n4. Sort record by Package Cost using Insertion sort"
+            "\n5. Search record by Customer Name using Linear Search and update record"
+            "\n6. Search record by Package Name using Binary Search and update record"
+            "\n7. List records range filter")
+        while True: # This loop is for input validation
+            choice = input("What would like to do today? (Press enter to exit program): ")
+            if choice == "":
+                print("Thank you for using Staycation Package Deal Inventory Menu!")
                 break
-        print("Invalid input detected - Please input again")
+            if choice.isnumeric() == True:
+                choice = int(choice)
+                if int(choice)>0 and int(choice) < 8:
+                    break
+            print("Invalid input detected - Please input again")
 
-    if choice == 6:
-        binarySearch(records)
+        if choice == 6:
+            binarySearch(records)
